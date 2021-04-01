@@ -1,0 +1,19 @@
+{
+  "name": "video-maker",
+  "version": "1.0.0",
+  "description": "Robos de automacao de pesquisa e edicao de videos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmetta/video-maker.git"
+  },
+  "author": "Mario F Metta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmetta/video-maker/issues"
+  },
+  "homepage": "https://github.com/mmetta/video-maker#readme"
+}
