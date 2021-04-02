@@ -18,7 +18,8 @@ async function robot() {
     console.log('> [text-robot] Starting...')
     const content = state.load()
 
-    await fetchContentFromWikipedia(content)
+    // await fetchContentFromWikipedia(content)
+
     await sanitizeContent(content)
     await breakContentIntoSentences(content)
     limitMaximumSentences(content)
@@ -27,7 +28,7 @@ async function robot() {
     state.save(content)
 
     async function fetchContentFromWikipedia(content) {
-
+      
         const input = {
             'articleName': content.searchTerm,
             'lang': 'pt'
@@ -36,6 +37,7 @@ async function robot() {
         const wikiClient = algorithmia.client(algorithmiaApiKey)
         const wikiAlgo = wikiClient.algo('web/WikipediaParser/0.1.2')
         const res = await wikiAlgo.pipe(input)
+        console.log('response: ' + res.get().content)
         content.sourceContentOriginal = res.get().content
       }
 
