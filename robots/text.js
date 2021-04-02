@@ -11,14 +11,14 @@ async function robot(content) {
 
     async function fetchContentFromWikipedia(content) {
 
-        const input = {
-            'articleName': content.searchTerm,
-            'lang': 'en'
-        }
+        // const input = {
+        //     'articleName': content.searchTerm,
+        //     'lang': 'en'
+        // }
 
         const wikiClient = algorithmia.client(algorithmiaApiKey)
         const wikiAlgo = wikiClient.algo('web/WikipediaParser/0.1.2')
-        const res = await wikiAlgo.pipe(input)
+        const res = await wikiAlgo.pipe(content.searchTerm)
         content.sourceContentOriginal = res.get().content
       }
 
