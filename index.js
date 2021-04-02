@@ -1,13 +1,15 @@
 const robots = {
+    state: require('./robots/state.js'),
     input: require('./robots/input.js'),
     text: require('./robots/text.js')
   }
   
   async function start() {
-    const content = {}
-    await robots.input(content)
-    await robots.text(content)
-    console.log(content)
+    await robots.input()
+    await robots.text()
+    
+    const content = robots.state.load()
+    console.dir(content, { depth: null })
   }
   
   start()
