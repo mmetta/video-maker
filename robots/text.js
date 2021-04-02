@@ -12,7 +12,7 @@ async function robot(content) {
     async function fetchContentFromWikipedia(content) {
 
         const input = {
-            'search': content.searchTerm,
+            'articleName': content.searchTerm,
             'lang': 'pt'
         }
 
