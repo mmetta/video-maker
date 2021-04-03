@@ -107,6 +107,7 @@ dist
 credentials/*.json
 
 content.json
+backup.json
 
 content/*.png
 content/*.jpg

@@ -1,3 +1,4 @@
+const imageDownloader = require('image-downloader')
 const google = require('googleapis').google
 const customSearch = google.customsearch('v1')
 const state = require('./state.js')
@@ -9,6 +10,7 @@ async function robot() {
     const content = state.load()
 
     await fetchImagesOfAllSentences(content)
+    await downloadAllImages(content)
 
     state.save(content)
 
@@ -40,6 +42,7 @@ async function robot() {
           num: 2
         })
         if(!response.data.items) {
+            console.log('Item vazio: ' + query)
             return
         }
         const imagesUrl = response.data.items.map((item) => {
@@ -47,6 +50,38 @@ async function robot() {
         })
     
         return imagesUrl
+      }
+
+      async function downloadAllImages(content) {
+        content.downloadedImages = []
+    
+        for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
+          const images = content.sentences[sentenceIndex].images
+    
+          for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
+            const imageUrl = images[imageIndex]
+    
+            try {
+              if (content.downloadedImages.includes(imageUrl)) {
+                throw new Error('Image already downloaded')
+              }
+    
+              await downloadAndSave(imageUrl, `${sentenceIndex}-original.png`)
+              content.downloadedImages.push(imageUrl)
+              console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Image successfully downloaded: ${imageUrl}`)
+              break
+            } catch(error) {
+              console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Error (${imageUrl}): ${error}`)
+            }
+          }
+        }
+      }
+    
+      async function downloadAndSave(url, fileName) {
+        return imageDownloader.image({
+          url: url,
+          dest: `./content/${fileName}`
+        })
       }
 
 }
